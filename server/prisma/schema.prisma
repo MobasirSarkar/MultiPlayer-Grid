@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
+}
+
+// Current grid state
+model GridCell {
+    id        String   @id @default(cuid())
+    x         Int
+    y         Int
+    character String   @db.VarChar(10)
+    playerId  String
+    updatedAt DateTime @updatedAt
+    createdAt DateTime @default(now())
+
+    @@unique([x, y]) // only one character per cell
+    @@index([x, y]) // fast lookups
+}
+
+// player session tracking
+model Player {
+    id             String    @id @default(cuid())
+    sessionId      String    @unique
+    hasSubmitted   Boolean   @default(false)
+    lastSubmitted  DateTime?
+    cooldownExpiry DateTime? // For optional cooldown feature
+    createdAt      DateTime  @default(now())
+
+    @@index([sessionId])
+}
+
+// Historial updates
+model GridHistory {
+    id        String   @id @default(cuid())
+    x         Int
+    y         Int
+    character String   @db.VarChar(10)
+    playerId  String
+    action    String   @default("UPDATE")
+    timestamp DateTime @default(now())
+
+    @@index([timestamp]) // for time-based queries
+    @@index([playerId]) // For player-specific history
+}
