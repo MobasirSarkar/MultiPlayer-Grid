@@ -15,7 +15,7 @@ export const Grid: React.FC<GridProps> = ({
     disabled,
 }) => {
     return (
-        <div className="grid grid-cols-10 gap-2 p-8 bg-primary rounded-3xl shadow-2xl max-w-4xl mx-auto">
+        <div className="grid grid-cols-10 gap-2 p-8 bg-gray-50 rounded-3xl shadow-2xl max-w-3xl mx-auto">
             {cells.map((row, y) =>
                 row.map((character, x) => (
                     <GridCell

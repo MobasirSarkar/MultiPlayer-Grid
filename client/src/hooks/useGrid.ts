@@ -1,4 +1,4 @@
-import { use, useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import type { GridState } from "../types/grid.types";
 
 export const useGrid = () => {

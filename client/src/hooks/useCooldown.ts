@@ -9,10 +9,17 @@ export const useCoolDown = () => {
 
     const startCooldown = useCallback((expiresAt: string) => {
         const expiryDate = new Date(expiresAt);
-        setCoolDownExpiry(expiryDate);
+        const now = new Date();
+        if (expiryDate > now) {
+            setCoolDownExpiry(expiryDate);
 
-        const remaining = Math.ceil((expiryDate.getTime() - Date.now()) / 1000);
-        setCoolDownRemaining(remaining);
+            const remaining = Math.ceil(
+                (expiryDate.getTime() - Date.now()) / 1000,
+            );
+            setCoolDownRemaining(remaining > 0 ? remaining : null);
+        } else {
+            clearCoolDown();
+        }
     }, []);
 
     const updateCoolDown = useCallback((remaining: number) => {

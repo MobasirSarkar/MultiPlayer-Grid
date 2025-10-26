@@ -1,0 +1,33 @@
+services:
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: multi-grid-server
+    env_file:
+      - ./server/.env
+    ports:
+      - ${PORT}:${PORT}
+    environment:
+      NODE_ENV: ${NODE_ENV}
+    networks:
+      - multi-grid-network
+
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: multi-grid-client
+    env_file:
+      - ./client/.env
+    ports:
+      - "5173:5173"  # Vite dev/production port
+    depends_on:
+      - server
+    networks:
+      - multi-grid-network
+
+networks:
+  multi-grid-network:
+    driver: bridge
