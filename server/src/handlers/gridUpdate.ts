@@ -37,16 +37,19 @@ export async function handleGridUpdate(
         const result = await gridService.updateCell(x, y, character, sessionId);
 
         // broadcast to all clients
-        wsManager.broadcast({
-            type: "GRID_UPDATED",
-            payload: {
-                x,
-                y,
-                character,
-                playerId: sessionId,
-                timestamp: result.cell.updatedAt.toISOString(),
+        wsManager.broadcast(
+            {
+                type: "GRID_UPDATED",
+                payload: {
+                    x,
+                    y,
+                    character,
+                    playerId: sessionId,
+                    timestamp: result.cell.updatedAt.toISOString(),
+                },
             },
-        });
+            clientId,
+        );
         // send cooldown message to the player
         ws.send(
             JSON.stringify({

@@ -13,6 +13,7 @@ export async function handleConnection(
         const { sessionId } = message.payload;
         const gridState = await gridService.getGridState();
         const playerCount = wsManager.getPlayerCount();
+        const playerStatus = await gridService.getPlayerStatus(sessionId);
 
         ws.send(
             JSON.stringify({
@@ -20,6 +21,12 @@ export async function handleConnection(
                 payload: {
                     grid: gridState,
                     playerCount,
+                    playerStatus: {
+                        hasSubmitted: playerStatus.hasSubmitted,
+                        cooldownRemaining: playerStatus.cooldownRemaining,
+                        canUpdate: playerStatus.canUpdate,
+                        cooldownExpiry: playerStatus.cooldownExpiry,
+                    },
                 },
             }),
         );

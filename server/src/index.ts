@@ -13,9 +13,11 @@ const wsManager = new WebSocketManger();
 
 wss.on("connection", (ws: WebSocket) => {
     let clientId: string | null = null;
+
     ws.on("message", async (data: Buffer) => {
         try {
             const message = JSON.parse(data.toString());
+
             switch (message.type) {
                 case "CONNECT":
                     clientId = wsManager.addClient(
@@ -37,12 +39,12 @@ wss.on("connection", (ws: WebSocket) => {
                     }
                     break;
 
-                case "ONLINE_STATUS":
+                case "HEARTBEAT":
                     if (clientId) {
                         wsManager.updateOnline(clientId);
                         ws.send(
                             JSON.stringify({
-                                type: "ONLINE_STATUS",
+                                type: "HEARTBEAT_ACK",
                                 payload: {
                                     timestamp: Date.now(),
                                 },
@@ -52,6 +54,14 @@ wss.on("connection", (ws: WebSocket) => {
                     break;
                 default:
                     console.log("Unknown message type: ", message.type);
+                    ws.send(
+                        JSON.stringify({
+                            type: "ERROR",
+                            payload: {
+                                message: `Unknown message type: ${message.type}`,
+                            },
+                        }),
+                    );
             }
         } catch (error) {
             console.error("WebSocket message error: ", error);
