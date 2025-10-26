@@ -18,11 +18,20 @@ Multi Grid is a real-time multiplayer grid game where:
 1. Copy `.env.example` to `.env` in **both** the client and server directories and update if needed:
    cp .env.example .env
 
-## Tools Used
- - Normal Chatgpt for bug fixes.
-
 2. Run the application with Docker:
+
+```bash
    docker-compose up --build
+   ```
+**detach mode**
+```bash
+   docker-compose up --build -d
+```
 
 - Client: http://localhost:5173  
 - Server: http://localhost:8000
+
+## AI Tools Used
+ - Normal Chatgpt for bug fixes.
+
+
