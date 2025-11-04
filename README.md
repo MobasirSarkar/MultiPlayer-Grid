@@ -10,6 +10,17 @@ Multi Grid is a real-time multiplayer grid game where:
 ### Extra Features
 - **Historical Updates**: Players can view past updates to the grid.
 
+
+## Preview
+
+<p align="center">
+  <img src="./assets/screenshot-2025-10-27_01-53-00.png" alt="Game Preview 1" width="350" />
+  <img src="./assets/screenshot-2025-10-27_01-54-24.png" alt="Game Preview 2" width="350" />
+  <img src="./assets/screenshot-2025-10-27_01-55-50.png" alt="Game Preview 3" width="350" />
+</p>
+
+---
+
 ## Prerequisites
 - Docker  
 - Docker Compose  
